@@ -1,8 +1,9 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 export default function Navbar() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
       <div className="container-fluid">
         <a className="navbar-brand" href="#">
           Fullstack App
@@ -39,7 +40,10 @@ export default function Navbar() {
               <a className="nav-link disabled">Disabled</a>
             </li>
           </ul>
+
         </div>
+        <Link className="btn btn-outline-light" to="/adduser">Add user</Link>
+
       </div>
     </nav>
   );

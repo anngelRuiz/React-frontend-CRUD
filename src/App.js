@@ -7,6 +7,7 @@ import Navbar from './components/Navbar/Navbar';
 import Home from './pages/Home';
 import About from './pages/About';
 import AddUser from './users/AddUser';
+import EditUser from './users/EditUser';
 
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
           <Route path='/' element= {<Home/>}></Route>
           <Route path= "/about" element={<About/>}></Route>
           <Route path= "/adduser" element={<AddUser/>}></Route>
+          <Route path= "/editUser/:id" element={<EditUser/>}></Route>
+
         </Routes>
       </Router>
     </>

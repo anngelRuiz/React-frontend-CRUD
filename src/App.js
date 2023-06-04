@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import AddUser from './users/AddUser';
 import EditUser from './users/EditUser';
+import ViewUser from './pages/ViewUser';
 
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
           <Route path= "/about" element={<About/>}></Route>
           <Route path= "/adduser" element={<AddUser/>}></Route>
           <Route path= "/editUser/:id" element={<EditUser/>}></Route>
-
+          <Route path= "/viewUser/:id" element={<ViewUser/>}></Route>
         </Routes>
       </Router>
     </>

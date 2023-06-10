@@ -1,4 +1,5 @@
-##This is a simple CRUD with React (axios, react-router-dom, bootstrap)
+
+This is a simple CRUD with React (axios, react-router-dom, bootstrap)
 
 TODO:
 Add a message warning when the conecction to db is not working

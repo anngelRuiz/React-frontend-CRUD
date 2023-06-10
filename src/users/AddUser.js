@@ -1,6 +1,7 @@
 import React, { useState} from 'react';
 import axios from 'axios';
 import {Link, useNavigate } from 'react-router-dom';
+import { API_ENDPOINT } from '../config/config';
 
 export default function AddUser() {
 
@@ -23,7 +24,7 @@ export default function AddUser() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/users", user);
+    await axios.post(API_ENDPOINT + "users", user);
     navigate("/");
   };
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useParams, Location, useLocation } from "react-router-dom";
+import { API_ENDPOINT } from '../config/config';
 
 export default function ViewUser() {
 
@@ -23,7 +24,7 @@ export default function ViewUser() {
     },[]);
 
     const loadUser = async () =>{
-        const result = await axios.get(`http://localhost:8080/users/${id}`);
+        const result = await axios.get(`${API_ENDPOINT}users/${id}`);
         setUser(result.data);
     }
 

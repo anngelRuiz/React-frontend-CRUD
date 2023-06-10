@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 
 export default function Home() {
   const [users, setUser] = useState([]);
+  const [error, setError] = useState("");
 
   const {id} = useParams();
 
@@ -12,18 +13,29 @@ export default function Home() {
   }, []);
 
   const loadUsers = async () => {
-    const result = await axios.get("http://localhost:8080/users");
-    setUser(result.data);
+    try{
+      const result = await axios.get("http://localhost:8080/users");
+      setUser(result.data);
+    }catch (error){
+      setError("Error loading users:\n" + error);
+      console.log("Error loading users:", error);
+    }
   };
 
   const deleteUser = async (id) => {
-    await axios.delete(`http://localhost:8080/users/${id}`);
-    loadUsers();
+    try{
+      await axios.delete(`http://localhost:8080/users/${id}`);
+      loadUsers();
+    }catch(error){
+      setError("Error loading users:\n" + error);
+      console.log("Error deleting user:", error);
+    }
   }
 
   return (
     <div className="container">
       <div className="py-4">
+        {error && <div className="alert alert-danger text-center"><pre>{error}</pre></div>}
         <table className="table">
           <thead>
             <tr>

@@ -9,6 +9,11 @@ export default function Home() {
   const {id} = useParams();
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const errorParam = params.get("error");
+    if(errorParam){
+      setError(decodeURIComponent(errorParam));
+    }
     loadUsers();
   }, []);
 
@@ -16,9 +21,9 @@ export default function Home() {
     try{
       const result = await axios.get("http://localhost:8080/users");
       setUser(result.data);
+      setError("");
     }catch (error){
       setError("Error loading users:\n" + error);
-      console.log("Error loading users:", error);
     }
   };
 
@@ -60,7 +65,7 @@ export default function Home() {
                 <td>{user.gender}</td>
                 <td>{user.deparment}</td>
                 <td>
-                  <Link className="btn btn-primary mx-2" to={`/viewUser/${user.id}`}>View</Link>
+                  <Link className="btn btn-primary mx-2" to={`/viewUser/${user.id}?error=${encodeURIComponent(error)}`}>View</Link>
                   <Link className="btn btn-outline-primary mx-2" to={`/editUser/${user.id}`}>Edit</Link>
                   <button className="btn btn-danger mx-2" onClick={() => deleteUser(user.id)}>Delete</button>
                 </td>

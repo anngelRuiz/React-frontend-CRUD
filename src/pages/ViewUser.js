@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, Location, useLocation } from "react-router-dom";
 
 export default function ViewUser() {
 
@@ -14,6 +14,9 @@ export default function ViewUser() {
     });
 
     const {id} = useParams();
+
+    const location = useLocation();
+    const error = new URLSearchParams(location.search).get('error');
 
     useEffect(() =>{
         loadUser();
@@ -61,7 +64,7 @@ export default function ViewUser() {
                 </ul>
             </div>
           </div>
-          <Link className='btn btn-primary my-2' to={"/"} >Back to Home</Link>
+          <Link className='btn btn-primary my-2' to={`/?error=${encodeURIComponent(error)}`} >Back to Home</Link>
         </div>
       </div>
     </div>

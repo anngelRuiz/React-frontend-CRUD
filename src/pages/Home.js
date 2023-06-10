@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
+import Swal from 'sweetalert2';
+import Skeleton from "../components/skeleton/Skeleton";
 
 export default function Home() {
   const [users, setUser] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const {id} = useParams();
@@ -14,16 +17,29 @@ export default function Home() {
     if(errorParam){
       setError(decodeURIComponent(errorParam));
     }
+    if(error){
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error,
+      });
+    }
     loadUsers();
-  }, []);
+    
+  }, [error]);
 
   const loadUsers = async () => {
     try{
       const result = await axios.get("http://localhost:8080/users");
-      setUser(result.data);
-      setError("");
+      // Simulating loading
+      setTimeout(() => {
+        setUser(result.data);
+        setError("");
+        setLoading(false);
+      }, 3000);
     }catch (error){
       setError("Error loading users:\n" + error);
+      setLoading(false);
     }
   };
 
@@ -38,9 +54,8 @@ export default function Home() {
   }
 
   return (
-    <div className="container">
+    <div className="container">    
       <div className="py-4">
-        {error && <div className="alert alert-danger text-center"><pre>{error}</pre></div>}
         <table className="table">
           <thead>
             <tr>
@@ -55,7 +70,9 @@ export default function Home() {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
+          {!loading ?
+              users.length > 0 ? (
+              users.map((user, index) => (
               <tr>
                 <th key={index} scope="row">{index+1}</th>
                 <td>{user.name}</td>
@@ -70,9 +87,16 @@ export default function Home() {
                   <button className="btn btn-danger mx-2" onClick={() => deleteUser(user.id)}>Delete</button>
                 </td>
               </tr>
-            ))}
+            ))) : (
+              <tr>
+                <td colSpan="8" className="text-center">
+                  No users found.
+                </td>
+              </tr>
+            ) : ''}
           </tbody>
         </table>
+        {loading ? <Skeleton/> : ''}
       </div>
     </div>
   );

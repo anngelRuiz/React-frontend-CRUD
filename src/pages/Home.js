@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import Swal from 'sweetalert2';
 import Skeleton from "../components/skeleton/Skeleton";
+import { API_ENDPOINT } from "../config/config";
 
 export default function Home() {
   const [users, setUser] = useState([]);
@@ -30,13 +31,13 @@ export default function Home() {
 
   const loadUsers = async () => {
     try{
-      const result = await axios.get("http://localhost:8080/users");
+      const result = await axios.get(API_ENDPOINT + "users");
       // Simulating loading
       setTimeout(() => {
         setUser(result.data);
         setError("");
         setLoading(false);
-      }, 3000);
+      }, 2000);
     }catch (error){
       setError("Error loading users:\n" + error);
       setLoading(false);
@@ -45,7 +46,7 @@ export default function Home() {
 
   const deleteUser = async (id) => {
     try{
-      await axios.delete(`http://localhost:8080/users/${id}`);
+      await axios.delete(`${API_ENDPOINT}users/${id}`);
       loadUsers();
     }catch(error){
       setError("Error loading users:\n" + error);
@@ -73,7 +74,7 @@ export default function Home() {
           {!loading ?
               users.length > 0 ? (
               users.map((user, index) => (
-              <tr>
+              <tr key={user.id}>
                 <th key={index} scope="row">{index+1}</th>
                 <td>{user.name}</td>
                 <td>{user.lastName}</td>

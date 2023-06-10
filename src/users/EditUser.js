@@ -69,20 +69,20 @@ export default function EditUser() {
               <option value="Other">Other</option>
             </select>
             <label class="input-group-text" for="inputGender">Gender</label>
-          </div>
+            </div>
 
-          <div class="input-group mb-3">
-            <select class="form-select" id="inputDepartment" name="deparment" value={deparment} onChange={(e) => onInputChange(e)}>
-              <option>Choose Deparment...</option>
-              <option value="IT">IT</option>
-              <option value="ACCOUNT">ACCOUNT</option>
-              <option value="CALL">CALL</option>
-            </select>
-            <label class="input-group-text" for="inputDepartment">Deparment</label>
-          </div>
-
-            <Link className='btn btn-outline-secondary mx-2' to="/">Cancel</Link>
+            <div class="input-group mb-3">
+              <select class="form-select" id="inputDepartment" name="deparment" value={deparment} onChange={(e) => onInputChange(e)}>
+                <option>Choose Deparment...</option>
+                <option value="IT">IT</option>
+                <option value="ACCOUNT">ACCOUNT</option>
+                <option value="CALL">CALL</option>
+              </select>
+              <label class="input-group-text" for="inputDepartment">Deparment</label>
+            </div>
+            
             <button type="submit" className='btn btn-primary'>Submit</button>
+            <Link className='btn btn-outline-secondary mx-2' to="/">Cancel</Link>            
           </form>
         </div>
 

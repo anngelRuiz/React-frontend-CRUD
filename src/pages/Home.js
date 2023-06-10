@@ -44,14 +44,32 @@ export default function Home() {
     }
   };
 
-  const deleteUser = async (id) => {
-    try{
-      await axios.delete(`${API_ENDPOINT}users/${id}`);
-      loadUsers();
-    }catch(error){
-      setError("Error loading users:\n" + error);
-      console.log("Error deleting user:", error);
-    }
+  const deleteUser = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this user!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: "Yes, delete it!"
+    }).then( async (result) => {
+      if(result.isConfirmed){        
+        try{
+          await axios.delete(`${API_ENDPOINT}users/${id}`);
+          loadUsers();
+          Swal.fire(
+            'Deleted',
+            'The user has been deleted.',
+            'success'
+          );
+        }catch(error){
+          setError("Error loading users:\n" + error);
+          console.log("Error deleting user:", error);
+        }
+      }
+    });
+    
   }
 
   return (

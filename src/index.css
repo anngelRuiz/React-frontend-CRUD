@@ -1,4 +1,5 @@
 body {
+  background-color: red;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -10,4 +11,22 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Sweet alert 2 styles */
+/* div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm */
+div.swal2-container{
+  /* font-family: 'Lato', 'Helvetica Neue', Helvetica, sans-serif; */
+}
+
+div.swal2-container button.swal2-confirm {  
+  background-color: #7cd1f9;
+  color: #fff;
+  border: none;
+  box-shadow: none;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 24px;
+  margin: 0;  
 }

@@ -2,8 +2,11 @@ import React, { useEffect, useState} from 'react';
 import axios from 'axios';
 import {Link, useNavigate, useParams } from 'react-router-dom';
 import { API_ENDPOINT } from '../config/config';
+import Swal from 'sweetalert2';
 
 export default function EditUser() {
+
+  const [error, setError] = useState("");
 
   let navigate = useNavigate();
 
@@ -20,8 +23,11 @@ export default function EditUser() {
 
   const {name, lastName, email, age, gender, deparment} = user;
 
+  const [userChanged, setUserChanged] = useState(false);
+
   const onInputChange = (e) =>{
       setUser({...user, [e.target.name]: e.target.value});
+      setUserChanged(true);
   };
 
   useEffect(() =>{
@@ -30,13 +36,71 @@ export default function EditUser() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.put(`${API_ENDPOINT}users/${id}`, user);
-    navigate("/");
+    if(userChanged){
+      try{
+        console.log("sending axios put");
+        await axios.put(`${API_ENDPOINT}/users/${id}`, user);
+        setUserChanged(false);
+        navigate("/");
+      }catch (error){
+        setError(error);
+        console.log("Error editing user:", error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error Editing user',
+          text: error,
+          customClass: {
+            confirmButton: 'swal2-confirm'
+          }
+        });
+      }   
+    }else{
+      Swal.fire({
+        title: "No changes",
+        text: "There are no changes in the form.",
+        icon: "warning",
+        confirmButtonColor: '#3085d6',
+        customClass: {
+          popup: 'my-swal-modal',
+          confirmButton: 'swal2-confirm'
+        }
+      });
+    }
+     
   };
 
   const loadUser = async () => {
-    const result = await axios.get(`${API_ENDPOINT}users/${id}`);
+    const result = await axios.get(`${API_ENDPOINT}/users/${id}`);
     setUser(result.data);
+  }
+  
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    if(userChanged){
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You made some changes in the user data",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: '#e41c1c',        
+        confirmButtonText: "Cancel Edit",        
+        cancelButtonColor: '#c1c1c1',
+        cancelButtonText: "Keep editing",
+
+      }).then((result) => {
+        if(result.isConfirmed){
+          try{
+            navigate("/");
+          }catch(error){
+            setError("Error editing users:\n" + error);
+            console.log("Error editing user:", error);
+          }
+        }
+      });
+    }else{
+      navigate("/");
+    }
   }
 
   return (
@@ -82,7 +146,7 @@ export default function EditUser() {
             </div>
             
             <button type="submit" className='btn btn-primary'>Submit</button>
-            <Link className='btn btn-outline-secondary mx-2' to="/">Cancel</Link>            
+            <button className='btn btn-outline-secondary mx-2' onClick={(e) =>handleCancel(e)}>Cancel</button>            
           </form>
         </div>
 

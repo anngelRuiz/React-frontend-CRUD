@@ -35,7 +35,7 @@ export default function Home() {
 
   const loadUsers = async () => {
     try{
-      const result = await axios.get(API_ENDPOINT + "users");
+      const result = await axios.get(API_ENDPOINT + "/users");
       // Simulating loading
       setTimeout(() => {
         const filteredUsers = result.data.filter((user) => user.name.toLowerCase().includes(searchQuery.toLocaleLowerCase()));
@@ -65,7 +65,7 @@ export default function Home() {
     }).then( async (result) => {
       if(result.isConfirmed){
         try{
-          await axios.delete(`${API_ENDPOINT}users/${id}`);
+          await axios.delete(`${API_ENDPOINT}/users/${id}`);
           loadUsers();
           Swal.fire(
             'Deleted',
